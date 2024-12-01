@@ -1,19 +1,21 @@
+from collections import Counter
 
 
 class Puzzle:
 
-    def __init__(self, input):
+    def __init__(self, input: str):
         self.input = input
+        self._left: list[int] = []
+        self._right: list[int] = []
 
     @property
     def number_sets(self):
-        left, right = [], []
         for r in self.input.split('\n'):
             a, b = r.split()
-            left.append(int(a))
-            right.append(int(b))
+            self._left.append(int(a))
+            self._right.append(int(b))
 
-        return zip(sorted(left), sorted(right))
+        return zip(sorted(self._left), sorted(self._right))
 
     @property
     def number_diffs(self):
@@ -23,3 +25,17 @@ class Puzzle:
     @property
     def diffs_sum(self):
         return sum(self.number_diffs)
+
+    @property
+    def similarity_scores(self):
+        tuple(self.number_sets)
+        counter = Counter(self._right)
+        for a in self._left:
+            if a in counter:
+                yield a * counter[a]
+            else:
+                yield 0
+
+    @property
+    def similarity_sum(self):
+        return sum(self.similarity_scores)

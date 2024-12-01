@@ -2,7 +2,18 @@ services:
 
   test:
     build: .
-    entrypoint: pytest -k puzzle_test.py --cov=. --cov-fail-under=100 --mypy
+    entrypoint: pytest -vvv -k puzzle_test.py --cov=. --cov-fail-under=100 --mypy
     volumes:
       - .:/code
     working_dir: /code
+
+  solution-part-one:
+    build: .
+    entrypoint: python part_one_solution.py
+    volumes:
+      - .:/code
+    working_dir: /code
+
+  shell:
+    build: .
+    entrypoint: python
