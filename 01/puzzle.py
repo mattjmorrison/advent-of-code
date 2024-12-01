@@ -1,5 +1,5 @@
 from collections import Counter
-
+from typing import Generator, Iterator
 
 class Puzzle:
 
@@ -9,7 +9,7 @@ class Puzzle:
         self._right: list[int] = []
 
     @property
-    def number_sets(self):
+    def number_sets(self) -> Iterator[tuple[int, int]]:
         for r in self.input.split('\n'):
             a, b = r.split()
             self._left.append(int(a))
@@ -18,16 +18,16 @@ class Puzzle:
         return zip(sorted(self._left), sorted(self._right))
 
     @property
-    def number_diffs(self):
+    def number_diffs(self) -> Generator[int]:
         for a, b in self.number_sets:
             yield abs(a - b)
 
     @property
-    def diffs_sum(self):
+    def diffs_sum(self) -> int:
         return sum(self.number_diffs)
 
     @property
-    def similarity_scores(self):
+    def similarity_scores(self) -> Generator[int]:
         tuple(self.number_sets)
         counter = Counter(self._right)
         for a in self._left:
@@ -37,5 +37,5 @@ class Puzzle:
                 yield 0
 
     @property
-    def similarity_sum(self):
+    def similarity_sum(self) -> int:
         return sum(self.similarity_scores)

@@ -5,7 +5,7 @@ from part_one_solution import part_one
 from part_two_solution import part_two
 
 
-def test_splits_apart_numbers_from_input():
+def test_splits_apart_numbers_from_input() -> None:
     input = """3   4
 4   3
 2   5
@@ -34,7 +34,7 @@ def test_splits_apart_numbers_from_input():
 0  2
 0  3""", (1, 2, 3))
 ))
-def test_calculates_differences_for_each(input, answer):
+def test_calculates_differences_for_each(input: str, answer: tuple[int]) -> None:
     puzzle = Puzzle(input)
     assert tuple(puzzle.number_diffs) == answer
 
@@ -49,7 +49,7 @@ def test_calculates_differences_for_each(input, answer):
 3   9
 3   3""", 11)
 ))
-def test_adds_diffs(input, answer):
+def test_adds_diffs(input: str, answer: int) -> None:
     puzzle = Puzzle(input)
     assert puzzle.diffs_sum == answer
 
@@ -66,12 +66,12 @@ def test_adds_diffs(input, answer):
 2  9""", (36, 0, 0, 0)),
     )
 )
-def test_similarity_scores(input, answer):
+def test_similarity_scores(input: str, answer: tuple[int]) -> None:
     puzzle = Puzzle(input)
     assert tuple(puzzle.similarity_scores) == answer
 
 
-def test_sums_similarity_scores():
+def test_sums_similarity_scores() -> None:
     input = """3   4
 4   3
 2   5
@@ -82,9 +82,9 @@ def test_sums_similarity_scores():
     assert puzzle.similarity_sum == 31
 
 
-def test_part_one_solution():
+def test_part_one_solution() -> None:
     assert part_one() == 2057374
 
 
-def test_part_two_solution():
+def test_part_two_solution() -> None:
     assert part_two() == 23177084
