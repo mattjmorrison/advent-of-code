@@ -12,7 +12,6 @@ def test_example() -> None:
     assert puzzle.answer == 161
 
 
-@pytest.mark.skip("wait")
 def test_example_two() -> None:
     data = """
     xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
@@ -38,12 +37,20 @@ def test_example_two() -> None:
         [
             (1, 1),
         ]
-    )
+    ),
+    (
+        "mul(1,1)don't()*%&&mul(2,2)do()mul(3,3)",
+        [
+            (1, 1),
+            (3, 3),
+        ]
+    ),
 ))
-def test_replaces_bad_characters(example, answer):
+def test_replaces_bad_characters(example, answer) -> None:
     puzzle = Puzzle(example)
     assert puzzle.strip == answer
 
 
-def test_part_one():
+def test_part_one() -> None:
     assert part_one() == 157621318
+    # part 2              79845780
