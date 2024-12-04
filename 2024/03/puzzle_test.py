@@ -52,5 +52,5 @@ def test_replaces_bad_characters(example, answer) -> None:
 
 
 def test_part_one() -> None:
-    assert part_one() == 157621318
-    # part 2              79845780
+    # assert part_one() == 157621318
+    assert part_one() == 79845780
