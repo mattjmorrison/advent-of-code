@@ -1,3 +1,3 @@
 FROM python:latest
 
-RUN pip install pytest pytest-mypy pytest-cov
+RUN pip install pytest pytest-mypy pytest-cov pytest-pylint pytest-flake8

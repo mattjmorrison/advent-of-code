@@ -28,7 +28,6 @@ def test_is_safe(scenario: list[int], answer: bool) -> None:
     assert puzzle.is_safe(scenario) == answer
 
 
-# @pytest.mark.skip("Wait")
 @pytest.mark.parametrize("scenario, answer", (
     ([7, 6, 4, 2, 1], True),
     ([1, 2, 7, 8, 9], False),
@@ -66,7 +65,7 @@ def test_is_safe_two(scenario: list[int], answer: bool) -> None:
     ([0, 1, 2, 3, 4], [1, 1, 1, 1]),
     ([0, 4, 5, 6, 7], [4, 1, 1, 1]),
 ))
-def test_ranks_each(scenario, answer) -> None:
+def test_ranks_each(scenario: list[int], answer: list[int]) -> None:
     puzzle = Puzzle("")
     assert puzzle.rank(scenario) == answer
 
@@ -80,7 +79,7 @@ def test_ranks_each(scenario, answer) -> None:
     ([0, 1, 2, 3, 4], [0, 1, 2, 3, 4]),
     ([0, 4, 5, 6, 7], [4, 5, 6, 7]),
 ))
-def test_find_good_rank(scenario, answer) -> None:
+def test_find_good_rank(scenario: list[int], answer: list[int]) -> None:
     puzzle = Puzzle("")
     assert puzzle.find_good_rank(scenario) == answer
 
@@ -94,7 +93,7 @@ def test_find_good_rank(scenario, answer) -> None:
     ([1, 1, 1, 1], True),
     ([4, 1, 1, 1], False),
 ))
-def test_good_rank(scenario, answer):
+def test_good_rank(scenario: list[int], answer: bool) -> None:
     puzzle = Puzzle("")
     assert puzzle.is_good_rank(scenario) == answer
 
@@ -103,12 +102,5 @@ def test_solution_one() -> None:
     assert part_one() == 680
 
 
-# @pytest.mark.skip("Wait")
 def test_solution_two() -> None:
-    # assert part_two() == 691  # wrong too low
-    # assert part_two() == 692  # wrong too low
-    # assert part_two() == 693  # wrong too low
-    # assert part_two() == 699  # wrong too low
-    # assert part_two() == 700  # wrong
-    # assert part_two() == 709  # wrong
-    assert part_two() == 710 
+    assert part_two() == 710

@@ -10,8 +10,6 @@ class Puzzle:
         results = []
         for row in self.data.split('\n'):
             result = self.is_safe([int(a) for a in row.split()])
-            # if not result:
-            #     print(row, result)
             results.append(result)
         return Counter(results)[True]
 
@@ -19,8 +17,6 @@ class Puzzle:
         results = []
         for row in self.data.split('\n'):
             result = self.is_safe_two([int(a) for a in row.split()])
-            # if not result:
-            #     print("HERE:", row, result)
             results.append(result)
         return Counter(results)[True]
 
@@ -60,3 +56,4 @@ class Puzzle:
             z.pop(i)
             if self.is_good_rank(self.rank(z)):
                 return z
+        return []
