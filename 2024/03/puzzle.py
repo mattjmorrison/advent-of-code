@@ -11,17 +11,23 @@ class Puzzle:
     @property
     def answer(self) -> int:
         total = 0
-        for a, b in self.strip:
+        for a, b in self.strip():
             total += a * b
         return total
 
     @property
-    def strip(self) -> list[tuple[int, int]]:
+    def answer_two(self) -> int:
+        total = 0
+        for a, b in self.strip(True):
+            total += a * b
+        return total
+
+    def strip(self, bounds: bool = False) -> list[tuple[int, int]]:
         results: list[tuple[int, int]] = []
-        sections = self.data.split("don't()")
+        sections = self.data.split("don't()") if bounds else [self.data]
         results.extend(self.get_results(sections[0]))
         for section in sections[1:]:
-            good_section = section.split('do()')[1:]
+            good_section = section.split('do()')[1:] if bounds else section
             for good in good_section:
                 results.extend(self.get_results(good))
         return results
