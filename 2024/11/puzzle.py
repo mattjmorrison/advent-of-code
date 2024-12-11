@@ -1,5 +1,5 @@
 from typing import Self
-from functools import cache
+from collections import Counter
 
 
 class Stone:
@@ -47,38 +47,21 @@ class Puzzle:
 
     def __init__(self, data: str):
         self.data = data
-        self.state: list[Stone] = []
+        self.counter: Counter = Counter()
         self.parse()
 
     def answer(self, times: int) -> int:
         for _ in range(times):
             self.blink()
-        return len(self.state)
+        return sum(self.counter.values())
 
     def parse(self) -> None:
         for item in self.data.split(' '):
-            self.state.append(Stone(int(item)))
+            self.counter[Stone(int(item))] += 1
 
     def blink(self) -> None:
-        new_line = []
-        for stone in self.state:
-            new_line.extend(self.get_new_stones(stone))
-        self.state = new_line
-
-    # def blink(self) -> None:
-    #     index = 0
-    #     while True:
-    #         print(index)
-    #         if index >= len(self.state):
-    #             break
-    #         current_stone = self.state[index]
-    #         new_stones = self.get_new_stones(current_stone)
-    #         for new_index, new_stone in enumerate(new_stones, 1):
-    #             self.state.insert(index + new_index, new_stone)
-    #         index += 1 + len(new_stones)
-    #         if index > 1000:
-    #             break
-
-    @cache
-    def get_new_stones(self, stone: Stone) -> list[Stone]:
-        return stone.blink()
+        new_counter: Counter = Counter()
+        for stone, amount in self.counter.items():
+            for new_stone in stone.blink():
+                new_counter[new_stone] += amount
+        self.counter = new_counter
