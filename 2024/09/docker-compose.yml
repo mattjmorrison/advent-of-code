@@ -2,7 +2,7 @@ services:
 
   test:
     build: .
-    entrypoint: pytest . --cov --mypy --pylint --flake8 -vvv
+    entrypoint: pytest . --cov --mypy --pylint --flake8 --pycodestyle --durations=10 -vvv
     volumes:
       - .:/code
     working_dir: /code

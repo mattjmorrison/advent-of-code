@@ -17,25 +17,21 @@ class Puzzle:
         return result
 
     def defrag(self) -> list[str]:
-        result = self.blocks
-        for i in range(1, len(result) + 1):
-            if not self.has_gaps(result):
-                break
-            item = result[i * -1]
-            if item != '.':
-                result[result.index('.')] = item
-                result[i * -1] = '.'
-        return result
-
-    def has_gaps(self, data: list[str]) -> bool:
-        return len(set(data[data.index('.'):])) > 1
+        blocks = self.blocks
+        while '.' in blocks:
+            while blocks[-1] == '.':
+                blocks.pop()
+            blocks[blocks.index('.')] = blocks.pop()
+        return blocks
 
     def get_checksum(self) -> int:
         results = 0
         defragged = self.defrag()
         for index, value in enumerate(defragged):
-            if value == '.':
-                break
             results += index * int(value)
-            print(f'{results} += ({index} * {value})')
         return results
+
+    def new_checksum(self) -> int:
+        result = 0
+        defragged = self.defrag()
+        pass
