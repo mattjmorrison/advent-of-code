@@ -40,6 +40,14 @@ def test_parse() -> None:
     assert prize4.location == (18641, 10279)
 
 
+def test_parse_default() -> None:
+    puzzle = Puzzle("")
+    prize = puzzle.prizes[0]
+    assert prize.button_a == (0, 0)
+    assert prize.button_b == (0, 0)
+    assert prize.location == (0, 0)
+
+
 def test_prize_one() -> None:
     data = """
 Button A: X+94, Y+34
@@ -47,9 +55,7 @@ Button B: X+22, Y+67
 Prize: X=8400, Y=5400
     """.strip()
     prize = Prize(data)
-    assert prize.x_first
-    assert prize.first_button == (94, 34)
-    assert prize.presses == (80, 40)
+    assert prize.get_presses(prize.button_a, prize.button_b) == (80, 40)
 
 
 def test_prize_three() -> None:
@@ -59,9 +65,8 @@ Button B: X+84, Y+37
 Prize: X=7870, Y=6450
     """.strip()
     prize = Prize(data)
-    assert prize.x_first is False
-    assert prize.first_button == (84, 37)
-    assert prize.presses == (38, 86)
+    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
+    assert prize.get_presses(prize.button_b, prize.button_a) == (86, 38)
 
 
 def test_example() -> None:

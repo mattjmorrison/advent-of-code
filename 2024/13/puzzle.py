@@ -29,55 +29,43 @@ class Prize:
     def location(self) -> tuple[int, int]:
         return self._parse('Prize', '=')
 
-    @cached_property
-    def x_first(self) -> bool:
-        return self.location and self.location[0] > self.location[1]
+    def get_presses(  # noqa: C901
+        self, first: tuple[int, int], second: tuple[int, int]
+    ) -> tuple[int, int]:
+        x = self.location[0]
+        one_x = first[0]
+        two_x = second[0]
+        first_adjust = 0
+        while True:
+            presses = int(x / one_x) - first_adjust
+            result = x - (presses * one_x)
+            second_adjust = 0
+            while result > 0:
+                second_press = int(result / two_x) + second_adjust
+                result -= second_press * two_x
+                second_adjust += 1
+            if result == 0 or presses == 0:
+                break
+            first_adjust += 1
+        if self.is_match(first, presses, second, second_press):
+            return (presses, second_press)
+        return (0, 0)
 
-    @cached_property
-    def first_button(self) -> tuple[int, int]:
-        if self.x_first and self.button_a[0] > self.button_b[0]:
-            return self.button_a
-        return self.button_b
-
-    @cached_property
-    def second_button(self) -> tuple[int, int]:
-        if self.x_first and self.button_a[0] > self.button_b[0]:
-            return self.button_b
-        return self.button_a
-
-    @cached_property
-    def presses(self) -> int:
-        search = True
-        if self.x_first:
-            x = self.location[0]
-            one_x = self.first_button[0]
-            two_x = self.second_button[0]
-            first_adjust = 0
-            while search:
-                presses = int(x / one_x) - first_adjust
-                result = x - (presses * one_x)
-                second_adjust = 0
-                while result > 0:
-                    second_press = int(result / two_x) + second_adjust
-                    result -= second_press * two_x
-                    second_adjust += 1
-                if result == 0:
-                    search = False
-                else:
-                    first_adjust += 1
-                if presses == 0:
-                    break
-        if all([
+    def is_match(
+        self,
+        first: tuple[int, int], first_presses: int,
+        second: tuple[int, int], second_presses: int
+    ) -> bool:
+        return all([
             sum([
-                self.first_button[0] * presses,
-                self.second_button[0] * second_press
+                first[0] * first_presses,
+                second[0] * second_presses
             ]) == self.location[0],
             sum([
-                self.first_button[1] * presses,
-                self.second_button[1] * second_press
+                first[1] * first_presses,
+                second[1] * second_presses
             ]) == self.location[1]
-        ]):
-            return (presses, second_press)
+        ])
 
 
 class Puzzle:
