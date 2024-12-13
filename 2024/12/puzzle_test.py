@@ -1,4 +1,5 @@
 import pytest
+from data import DATA
 from puzzle import Puzzle
 
 
@@ -16,19 +17,27 @@ MMMISSJEEE
 """.strip()
 
 
-"""
-    A region of R plants with price 12 * 18 = 216.
-    A region of I plants with price 4 * 8 = 32.
-    A region of C plants with price 14 * 28 = 392.
-    A region of F plants with price 10 * 18 = 180.
-    A region of V plants with price 13 * 20 = 260.
-    A region of J plants with price 11 * 20 = 220.
-    A region of C plants with price 1 * 4 = 4.
-    A region of E plants with price 13 * 18 = 234.
-    A region of I plants with price 14 * 22 = 308.
-    A region of M plants with price 5 * 12 = 60.
-    A region of S plants with price 3 * 8 = 24.
-"""
+@pytest.mark.parametrize('plot, price', (
+    ((0, 0), 216),
+    ((0, 4), 32),
+    ((0, 6), 392),
+    ((0, 9), 180),
+    ((2, 0), 260),
+    ((3, 6), 220),
+    ((4, 7), 4),
+    ((4, 9), 234),
+    ((5, 2), 308),
+    ((7, 0), 60),
+    ((9, 4), 24),
+))
+def test_example_costs(plot: tuple[int, int], price: int) -> None:
+    puzzle = Puzzle(EXAMPLE)
+    assert puzzle.calc_price(plot) == price
+
+
+def test_get_all_regions() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    assert len(puzzle.get_regions()) == 11
 
 
 def test_find_neighbors_with_skip() -> None:
@@ -58,12 +67,24 @@ def test_perimeter(plot: tuple[int, int], perimeter: int) -> None:
     assert puzzle.calc_perimeter(plot) == perimeter
 
 
+@pytest.mark.parametrize('plot, area', (
+    ((4, 7), 1),
+    ((9, 4), 3),
+))
+def test_area(plot: tuple[int, int], area: int) -> None:
+    puzzle = Puzzle(EXAMPLE)
+    assert puzzle.calc_area(plot) == area
+
+
 @pytest.mark.parametrize('plot, sides', (
     ((4, 7), 4),
-    ((9, 4), 1),
-    ((9, 5), 2),
+    ((9, 4), 2),
+    ((9, 5), 3),
     ((8, 4), 3),
     ((7, 2), 0),
+    ((0, 0), 2),
+    ((0, 9), 2),
+    ((9, 0), 2),
 ))
 def test_gets_number_of_sides_with_no_neighbors(
     plot: tuple[int, int], sides: int
@@ -188,28 +209,32 @@ def test_get_neighbors_with_matching_plant(
 
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
-    # assert puzzle.answer == 1930
-    assert puzzle.answer == 0
+    assert puzzle.answer == 1930
 
 
-# def test_simple() -> None:
-#     INPUT = """
-#     AAAA
-#     BBCD
-#     BBCC
-#     EEEC
-#     """.strip()
-#     puzzle = Puzzle(EXAMPLE)
-#     assert puzzle.answer == 140
+def test_simple() -> None:
+    data = """
+AAAA
+BBCD
+BBCC
+EEEC
+    """.strip()
+    puzzle = Puzzle(data)
+    assert puzzle.answer == 140
 
 
-# def test_nested_example() -> None:
-#     INPUT = """
-# OOOOO
-# OXOXO
-# OOOOO
-# OXOXO
-# OOOOO
-# """.strip()
-#     puzzle = Puzzle(INPUT)
-#     assert puzzle.answer == 772
+def test_nested_example() -> None:
+    data = """
+OOOOO
+OXOXO
+OOOOO
+OXOXO
+OOOOO
+    """.strip()
+    puzzle = Puzzle(data)
+    assert puzzle.answer == 772
+
+
+def test_part_one() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.answer == 1467094

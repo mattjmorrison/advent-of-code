@@ -10,7 +10,10 @@ class Puzzle:
 
     @property
     def answer(self) -> int:
-        return 0
+        total = 0
+        for region in self.get_regions():
+            total += self.calc_price(region[0])
+        return total
 
     @property
     def data(self) -> list[list[str]]:
@@ -78,11 +81,43 @@ class Puzzle:
             total += self.count_sides_with_no_neighbors(one)
         return total
 
+    def calc_area(self, plot: tuple[int, int]) -> int:
+        return len(self.build_region(plot))
+
     def count_sides_with_no_neighbors(self, plot: tuple[int, int]) -> int:
-        return len(
+        outside_edges = 0
+        row, col = plot
+        if row - 1 < 0 or row + 1 >= len(self.data):
+            outside_edges += 1
+        if col - 1 < 0 or col + 1 >= len(self.data[0]):
+            outside_edges += 1
+        return outside_edges + len(
             set(
                 self.get_neighbor_coords(plot)
             ).difference(
                 set(self.get_neighbors_with_matching_plant(plot))
             )
         )
+
+    def calc_price(self, plot: tuple[int, int]) -> int:
+        sides = self.calc_perimeter(plot)
+        area = self.calc_area(plot)
+        return sides * area
+
+    def get_regions(self) -> list[list[tuple[int, int]]]:
+        regions: list[list[tuple[int, int]]] = []
+        for rindex, row in enumerate(self.data):
+            for cindex, _ in enumerate(row):
+                plot = (rindex, cindex)
+                if not self.already_plotted(regions, plot):
+                    regions.append(self.build_region(plot))
+        return regions
+
+    def already_plotted(
+        self, regions: list[list[tuple[int, int]]],
+        plot: tuple[int, int]
+    ) -> bool:
+        for region in regions:
+            if plot in region:
+                return True
+        return False
