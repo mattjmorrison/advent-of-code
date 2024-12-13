@@ -1,8 +1,10 @@
 from typing import Optional
 from functools import lru_cache
 from itertools import chain
+from collections import defaultdict
 
 
+# pylint: disable=too-many-public-methods
 class Puzzle:
 
     def __init__(self, data: str):
@@ -13,6 +15,13 @@ class Puzzle:
         total = 0
         for region in self.get_regions():
             total += self.calc_price(region[0])
+        return total
+
+    @property
+    def discounted_answer(self) -> int:
+        total = 0
+        for region in self.get_regions():
+            total += self.calc_discounted_price(region[0])
         return total
 
     @property
@@ -84,23 +93,100 @@ class Puzzle:
     def calc_area(self, plot: tuple[int, int]) -> int:
         return len(self.build_region(plot))
 
-    def count_sides_with_no_neighbors(self, plot: tuple[int, int]) -> int:
-        outside_edges = 0
+    def count_discounted_sides(self, plot: tuple[int, int]) -> int:
+        region = self.build_region(plot)
+        return sum([
+            self.count_top_edge(region),
+            self.count_right_edge(region),
+            self.count_bottom_edge(region),
+            self.count_left_edge(region),
+        ])
+
+    def count_top_edge(self, region: list[tuple[int, int]]) -> int:
+        top_edge_plots = []
+        for row, col in region:
+            if (row - 1, col) not in region:
+                top_edge_plots.append((row, col))
+        return self.count_column_gaps(top_edge_plots)
+
+    def count_column_gaps(  # noqa: C901
+        self, edge_plots: list[tuple[int, int]]
+    ) -> int:
+        groups = defaultdict(list)
+        for plot in edge_plots:
+            groups[plot[0]].append(plot[1])
+        edges = 0
+        for a in groups.values():
+            b = sorted(a)
+            edges += 1
+            for i in range(len(b) - 1):
+                if b[i] + 1 != b[i + 1]:
+                    edges += 1
+        return edges
+
+    def count_row_gaps(  # noqa: C901
+        self, edge_plots: list[tuple[int, int]]
+    ) -> int:
+        groups = defaultdict(list)
+        for plot in edge_plots:
+            groups[plot[1]].append(plot[0])
+        edges = 0
+        print(groups)
+        for a in groups.values():
+            b = sorted(a)
+            edges += 1
+            for i in range(len(b) - 1):
+                if b[i] + 1 != b[i + 1]:
+                    edges += 1
+        return edges
+
+    def count_bottom_edge(self, region: list[tuple[int, int]]) -> int:
+        bottom_edge_plots = []
+        for row, col in region:
+            if (row + 1, col) not in region:
+                bottom_edge_plots.append((row, col))
+        return self.count_column_gaps(bottom_edge_plots)
+
+    def count_right_edge(self, region: list[tuple[int, int]]) -> int:
+        right_edge_plots = []
+        for row, col in region:
+            if (row, col + 1) not in region:
+                right_edge_plots.append((row, col))
+        return self.count_row_gaps(right_edge_plots)
+
+    def count_left_edge(self, region: list[tuple[int, int]]) -> int:
+        left_edge_plots = []
+        for row, col in region:
+            if (row, col - 1) not in region:
+                left_edge_plots.append((row, col))
+        return self.count_row_gaps(left_edge_plots)
+
+    def get_edges_with_no_neighbors(
+        self, plot: tuple[int, int]
+    ) -> list[tuple[int, int]]:
+        outside_edges = []
         row, col = plot
         if row - 1 < 0 or row + 1 >= len(self.data):
-            outside_edges += 1
+            outside_edges += [plot]
         if col - 1 < 0 or col + 1 >= len(self.data[0]):
-            outside_edges += 1
-        return outside_edges + len(
-            set(
+            outside_edges += [plot]
+        return outside_edges + list(set(
                 self.get_neighbor_coords(plot)
             ).difference(
                 set(self.get_neighbors_with_matching_plant(plot))
             )
         )
 
+    def count_sides_with_no_neighbors(self, plot: tuple[int, int]) -> int:
+        return len(self.get_edges_with_no_neighbors(plot))
+
     def calc_price(self, plot: tuple[int, int]) -> int:
         sides = self.calc_perimeter(plot)
+        area = self.calc_area(plot)
+        return sides * area
+
+    def calc_discounted_price(self, plot: tuple[int, int]) -> int:
+        sides = self.count_discounted_sides(plot)
         area = self.calc_area(plot)
         return sides * area
 

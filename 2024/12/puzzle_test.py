@@ -17,6 +17,113 @@ MMMISSJEEE
 """.strip()
 
 
+def test_count_top_edge() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_top_edge(region) == 2
+
+
+def test_count_right_edge() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_right_edge(region) == 3
+
+
+def test_count_bottom_edge() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_bottom_edge(region) == 3
+
+
+def test_count_left_edge() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_left_edge(region) == 2
+
+
+def test_inner_boundaries() -> None:
+    data = """
+AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA
+    """.strip()
+    puzzle = Puzzle(data)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_top_edge(region) == 3
+    assert puzzle.count_right_edge(region) == 3
+    assert puzzle.count_bottom_edge(region) == 3
+    assert puzzle.count_left_edge(region) == 3
+
+
+def test_find_top_gaps() -> None:
+    puzzle = Puzzle("")
+    top_edges = [
+        (0, 0),         (0, 3),
+                (1, 2),         (1, 4),  # noqa: E131
+    ]
+    assert puzzle.count_top_edge(top_edges) == 4
+
+
+def test_find_bottom_gaps() -> None:
+    puzzle = Puzzle("")
+    bottom_edges = [
+        (0, 0),         (0, 3),
+                (1, 2),         (1, 4),  # noqa: E131
+    ]
+    assert puzzle.count_bottom_edge(bottom_edges) == 4
+
+
+def test_find_right_gaps() -> None:
+    puzzle = Puzzle("")
+    right_edges = [
+        (0, 0),
+                (1, 2),  # noqa: E131
+        (2, 0),
+                (3, 2),  # noqa: E131
+    ]
+    assert puzzle.count_right_edge(right_edges) == 4
+
+
+def test_find_left_gaps() -> None:
+    puzzle = Puzzle("")
+    left_edges = [
+        (0, 0),
+                (1, 2),  # noqa: E131
+        (2, 0),
+                (3, 2),  # noqa: E131
+    ]
+    assert puzzle.count_left_edge(left_edges) == 4
+
+
+def test_inner_boundaries_two() -> None:
+    data = """
+OOOOO
+OXOXO
+OOOOO
+OXOXO
+OOOOO
+    """.strip()
+    puzzle = Puzzle(data)
+    region = puzzle.build_region((0, 0))
+    assert puzzle.count_top_edge(region) == 5
+    assert puzzle.count_right_edge(region) == 5
+    assert puzzle.count_bottom_edge(region) == 5
+    assert puzzle.count_left_edge(region) == 5
+
+
+@pytest.mark.parametrize('plot, sides', (
+    ((0, 0), 10),
+))
+def test_discounted_sides_example(
+    plot: tuple[int, int], sides: int
+) -> None:
+    puzzle = Puzzle(EXAMPLE)
+    assert puzzle.count_discounted_sides(plot) == sides
+
+
 @pytest.mark.parametrize('plot, price', (
     ((0, 0), 216),
     ((0, 4), 32),
@@ -233,8 +340,53 @@ OOOOO
     """.strip()
     puzzle = Puzzle(data)
     assert puzzle.answer == 772
+    assert puzzle.discounted_answer == 436
+
+
+def test_discount() -> None:
+    data = """
+AAAA
+BBCD
+BBCC
+EEEC
+    """.strip()
+    puzzle = Puzzle(data)
+    assert puzzle.answer == 140
+    assert puzzle.discounted_answer == 80
+
+
+def test_discount_example_two() -> None:
+    data = """
+EEEEE
+EXXXX
+EEEEE
+EXXXX
+EEEEE
+    """.strip()
+    puzzle = Puzzle(data)
+    assert puzzle.answer == 692
+    assert puzzle.discounted_answer == 236
+
+
+def test_discount_example_three() -> None:
+    data = """
+AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA
+    """.strip()
+    puzzle = Puzzle(data)
+    assert puzzle.answer == 1184
+    assert puzzle.discounted_answer == 368
 
 
 def test_part_one() -> None:
     puzzle = Puzzle(DATA)
-    assert puzzle.answer == 1467094
+    assert puzzle.answer == 1_467_094
+
+
+def test_part_two() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.discounted_answer == 881_182
