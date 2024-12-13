@@ -1,4 +1,5 @@
 from puzzle import Puzzle, Prize
+from data import DATA
 
 
 EXAMPLE = """
@@ -56,6 +57,22 @@ Prize: X=8400, Y=5400
     """.strip()
     prize = Prize(data)
     assert prize.get_presses(prize.button_a, prize.button_b) == (80, 40)
+    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
+    assert prize.presses == (80, 40)
+    assert prize.tokens == 280
+
+
+def test_prize_two() -> None:
+    data = """
+Button A: X+26, Y+66
+Button B: X+67, Y+21
+Prize: X=12748, Y=12176
+    """.strip()
+    prize = Prize(data)
+    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
+    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
+    assert prize.presses == (0, 0)
+    assert prize.tokens == 0
 
 
 def test_prize_three() -> None:
@@ -67,29 +84,28 @@ Prize: X=7870, Y=6450
     prize = Prize(data)
     assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
     assert prize.get_presses(prize.button_b, prize.button_a) == (86, 38)
+    assert prize.presses == (38, 86)
+    assert prize.tokens == 200
+
+
+def test_prize_four() -> None:
+    data = """
+Button A: X+69, Y+23
+Button B: X+27, Y+71
+Prize: X=18641, Y=10279
+    """.strip()
+    prize = Prize(data)
+    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
+    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
+    assert prize.presses == (0, 0)
+    assert prize.tokens == 0
 
 
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
-    assert puzzle.answer == 0
+    assert puzzle.answer == 480
 
-    # 1st
-    # A button 80 times and the B button 40 times
-    # X axis (because 80*94 + 40*22 = 8400)
-    # Y axis (because 80*34 + 40*67 = 5400)
-    # 80*3 tokens for the A presses
-    # 40*1 for the B presses
-    # total of 280 tokens
 
-    # 2nd
-    # no prize
-
-    # 3rd
-    # A button 38 times
-    # B button 86 times
-    # 200 tokens
-
-    # 4th
-    # no prize
-
-    # all (two) prizes is 480
+def test_part_one() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.answer == 15974  # too low

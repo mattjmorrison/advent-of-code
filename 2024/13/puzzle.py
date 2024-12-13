@@ -29,6 +29,19 @@ class Prize:
     def location(self) -> tuple[int, int]:
         return self._parse('Prize', '=')
 
+    @property
+    def presses(self) -> tuple[int, int]:
+        presses = self.get_presses(self.button_a, self.button_b)
+        if presses == (0, 0):
+            tmp = self.get_presses(self.button_b, self.button_a)
+            presses = (tmp[1], tmp[0])
+        return presses
+
+    @property
+    def tokens(self) -> int:
+        a_press, b_press = self.presses
+        return a_press * 3 + b_press * 1
+
     def get_presses(  # noqa: C901
         self, first: tuple[int, int], second: tuple[int, int]
     ) -> tuple[int, int]:
@@ -36,6 +49,7 @@ class Prize:
         one_x = first[0]
         two_x = second[0]
         first_adjust = 0
+        second_press = 0
         while True:
             presses = int(x / one_x) - first_adjust
             result = x - (presses * one_x)
@@ -75,7 +89,7 @@ class Puzzle:
 
     @cached_property
     def answer(self) -> int:
-        return 0
+        return sum(prize.tokens for prize in self.prizes)
 
     @cached_property
     def prizes(self) -> list[Prize]:
