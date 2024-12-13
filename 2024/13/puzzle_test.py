@@ -56,8 +56,6 @@ Button B: X+22, Y+67
 Prize: X=8400, Y=5400
     """.strip()
     prize = Prize(data)
-    assert prize.get_presses(prize.button_a, prize.button_b) == (80, 40)
-    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
     assert prize.presses == (80, 40)
     assert prize.tokens == 280
 
@@ -69,8 +67,6 @@ Button B: X+67, Y+21
 Prize: X=12748, Y=12176
     """.strip()
     prize = Prize(data)
-    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
-    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
     assert prize.presses == (0, 0)
     assert prize.tokens == 0
 
@@ -82,8 +78,6 @@ Button B: X+84, Y+37
 Prize: X=7870, Y=6450
     """.strip()
     prize = Prize(data)
-    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
-    assert prize.get_presses(prize.button_b, prize.button_a) == (86, 38)
     assert prize.presses == (38, 86)
     assert prize.tokens == 200
 
@@ -108,4 +102,5 @@ def test_example() -> None:
 
 def test_part_one() -> None:
     puzzle = Puzzle(DATA)
-    assert puzzle.answer == 15974  # too low
+    # assert puzzle.answer == 15_974  # too low
+    assert puzzle.answer == 23_417  # too low

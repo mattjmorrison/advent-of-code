@@ -31,16 +31,25 @@ class Prize:
 
     @property
     def presses(self) -> tuple[int, int]:
-        presses = self.get_presses(self.button_a, self.button_b)
-        if presses == (0, 0):
-            tmp = self.get_presses(self.button_b, self.button_a)
-            presses = (tmp[1], tmp[0])
+        first_presses = self.get_presses(self.button_a, self.button_b)
+        second_presses_tmp = self.get_presses(self.button_b, self.button_a)
+        second_presses = (second_presses_tmp[1], second_presses_tmp[0])
+
+        presses = first_presses
+        if first_presses != (0, 0) and second_presses != (0, 0):
+            if self.calc(first_presses) > self.calc(second_presses):
+                return first_presses
+            return second_presses
+        if first_presses == (0, 0):
+            return second_presses
         return presses
+
+    def calc(self, presses: tuple[int, int]) -> int:
+        return presses[0] * 3 + presses[1] * 1
 
     @property
     def tokens(self) -> int:
-        a_press, b_press = self.presses
-        return a_press * 3 + b_press * 1
+        return self.calc(self.presses)
 
     def get_presses(  # noqa: C901
         self, first: tuple[int, int], second: tuple[int, int]
@@ -51,11 +60,11 @@ class Prize:
         first_adjust = 0
         second_press = 0
         while True:
-            presses = int(x / one_x) - first_adjust
+            presses = min((100, int(x / one_x))) - first_adjust
             result = x - (presses * one_x)
             second_adjust = 0
             while result > 0:
-                second_press = int(result / two_x) + second_adjust
+                second_press = min((100, int(result / two_x))) + second_adjust
                 result -= second_press * two_x
                 second_adjust += 1
             if result == 0 or presses == 0:
