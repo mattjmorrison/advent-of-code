@@ -60,6 +60,16 @@ Prize: X=8400, Y=5400
     assert prize.tokens == 280
 
 
+def test_prize_one_part_two() -> None:
+    data = """
+Button A: X+94, Y+34
+Button B: X+22, Y+67
+Prize: X=8400, Y=5400
+    """.strip()
+    prize = Prize(data, part_two=True)
+    assert prize.tokens == 0
+
+
 def test_prize_two() -> None:
     data = """
 Button A: X+26, Y+66
@@ -67,8 +77,17 @@ Button B: X+67, Y+21
 Prize: X=12748, Y=12176
     """.strip()
     prize = Prize(data)
-    assert prize.presses == (0, 0)
     assert prize.tokens == 0
+
+
+def test_prize_two_part_two() -> None:
+    data = """
+Button A: X+26, Y+66
+Button B: X+67, Y+21
+Prize: X=12748, Y=12176
+    """.strip()
+    prize = Prize(data, part_two=True)
+    assert prize.tokens == 459_236_326_669
 
 
 def test_prize_three() -> None:
@@ -78,8 +97,17 @@ Button B: X+84, Y+37
 Prize: X=7870, Y=6450
     """.strip()
     prize = Prize(data)
-    assert prize.presses == (38, 86)
     assert prize.tokens == 200
+
+
+def test_prize_three_part_two() -> None:
+    data = """
+Button A: X+17, Y+86
+Button B: X+84, Y+37
+Prize: X=7870, Y=6450
+    """.strip()
+    prize = Prize(data, part_two=True)
+    assert prize.tokens == 0
 
 
 def test_prize_four() -> None:
@@ -89,10 +117,17 @@ Button B: X+27, Y+71
 Prize: X=18641, Y=10279
     """.strip()
     prize = Prize(data)
-    assert prize.get_presses(prize.button_a, prize.button_b) == (0, 0)
-    assert prize.get_presses(prize.button_b, prize.button_a) == (0, 0)
-    assert prize.presses == (0, 0)
     assert prize.tokens == 0
+
+
+def test_prize_four_part_two() -> None:
+    data = """
+Button A: X+69, Y+23
+Button B: X+27, Y+71
+Prize: X=18641, Y=10279
+    """.strip()
+    prize = Prize(data, part_two=True)
+    assert prize.tokens == 416_082_282_239
 
 
 def test_example() -> None:
@@ -103,4 +138,10 @@ def test_example() -> None:
 def test_part_one() -> None:
     puzzle = Puzzle(DATA)
     # assert puzzle.answer == 15_974  # too low
-    assert puzzle.answer == 23_417  # too low
+    # assert puzzle.answer == 23_417  # too low
+    assert puzzle.answer == 31065
+
+
+def test_part_two() -> None:
+    puzzle = Puzzle(DATA, part_two=True)
+    assert puzzle.answer == 93866170395343

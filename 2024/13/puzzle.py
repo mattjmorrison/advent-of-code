@@ -4,8 +4,9 @@ from functools import cached_property
 
 class Prize:
 
-    def __init__(self, data: str):
+    def __init__(self, data: str, part_two: bool = False):
         self.data = data
+        self.part_two = part_two
 
     def _parse(self, label: str, split: str) -> tuple[int, int]:
         split = '\\' + split if split == '+' else split
@@ -27,22 +28,20 @@ class Prize:
 
     @cached_property
     def location(self) -> tuple[int, int]:
-        return self._parse('Prize', '=')
+        x, y = self._parse('Prize', '=')
+        inc = 10000000000000 if self.part_two else 0
+        return (x + inc, y + inc)
 
     @property
     def presses(self) -> tuple[int, int]:
-        first_presses = self.get_presses(self.button_a, self.button_b)
-        second_presses_tmp = self.get_presses(self.button_b, self.button_a)
-        second_presses = (second_presses_tmp[1], second_presses_tmp[0])
-
-        presses = first_presses
-        if first_presses != (0, 0) and second_presses != (0, 0):
-            if self.calc(first_presses) > self.calc(second_presses):
-                return first_presses
-            return second_presses
-        if first_presses == (0, 0):
-            return second_presses
-        return presses
+        diagonal = self.button_a[0] * self.button_b[1] - self.button_a[1] * self.button_b[0]
+        diagonal_x = self.location[0] * self.button_b[1] - self.location[1] * self.button_b[0]
+        diagonal_y = self.button_a[0] * self.location[1] - self.button_a[1] * self.location[0]
+        x = diagonal_x / diagonal
+        y = diagonal_y / diagonal
+        if x >= 0 and x == int(x) and y >= 0 and y == int(y):
+            return (int(x), int(y))
+        return (0, 0)
 
     def calc(self, presses: tuple[int, int]) -> int:
         return presses[0] * 3 + presses[1] * 1
@@ -51,50 +50,12 @@ class Prize:
     def tokens(self) -> int:
         return self.calc(self.presses)
 
-    def get_presses(  # noqa: C901
-        self, first: tuple[int, int], second: tuple[int, int]
-    ) -> tuple[int, int]:
-        x = self.location[0]
-        one_x = first[0]
-        two_x = second[0]
-        first_adjust = 0
-        second_press = 0
-        while True:
-            presses = min((100, int(x / one_x))) - first_adjust
-            result = x - (presses * one_x)
-            second_adjust = 0
-            while result > 0:
-                second_press = min((100, int(result / two_x))) + second_adjust
-                result -= second_press * two_x
-                second_adjust += 1
-            if result == 0 or presses == 0:
-                break
-            first_adjust += 1
-        if self.is_match(first, presses, second, second_press):
-            return (presses, second_press)
-        return (0, 0)
-
-    def is_match(
-        self,
-        first: tuple[int, int], first_presses: int,
-        second: tuple[int, int], second_presses: int
-    ) -> bool:
-        return all([
-            sum([
-                first[0] * first_presses,
-                second[0] * second_presses
-            ]) == self.location[0],
-            sum([
-                first[1] * first_presses,
-                second[1] * second_presses
-            ]) == self.location[1]
-        ])
-
 
 class Puzzle:
 
-    def __init__(self, data: str):
+    def __init__(self, data: str, part_two: bool = False):
         self.data = data
+        self.part_two = part_two
 
     @cached_property
     def answer(self) -> int:
@@ -104,5 +65,5 @@ class Puzzle:
     def prizes(self) -> list[Prize]:
         prizes = []
         for prize_data in self.data.split('\n\n'):
-            prizes.append(Prize(prize_data))
+            prizes.append(Prize(prize_data, part_two=self.part_two))
         return prizes
