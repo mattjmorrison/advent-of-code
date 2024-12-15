@@ -1,0 +1,16 @@
+services:
+
+  test:
+    build: .
+    entrypoint: pytest . --cov --mypy --pylint --flake8 --pycodestyle --black -vvv
+    volumes:
+      - .:/code
+    working_dir: /code
+
+
+  shell:
+    build: .
+    entrypoint: /bin/bash
+    volumes:
+      - .:/code
+    working_dir: /code
