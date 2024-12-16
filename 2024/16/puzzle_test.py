@@ -1,4 +1,6 @@
 from puzzle import Puzzle
+from puzzle2 import Puzzle2
+from data import DATA
 
 
 EXAMPLE = """
@@ -19,7 +21,127 @@ EXAMPLE = """
 ###############
 """.strip()
 
+EXAMPLE_TWO = """
+#################
+#...#...#...#..E#
+#.#.#.#.#.#.#.#.#
+#.#.#.#...#...#.#
+#.#.#.#.###.#.#.#
+#...#.#.#.....#.#
+#.#.#.#.#.#####.#
+#.#...#.#.#.....#
+#.#.#####.#.###.#
+#.#.#.......#...#
+#.#.###.#####.###
+#.#.#...#.....#.#
+#.#.#.#####.###.#
+#.#.#.........#.#
+#.#.#.#########.#
+#S#.............#
+#################
+""".strip()
 
+def test_part_one() -> None:
+    puzzle = Puzzle2(DATA)
+    assert puzzle.dijkstra() == 122492
+
+def test_puzzle2_dijkstra_example_two() -> None:
+    puzzle = Puzzle2(EXAMPLE_TWO)
+    result = puzzle.dijkstra()
+    assert result == 11048
+
+def test_puzzle2_show_grid() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    assert puzzle.show_grid().strip() == EXAMPLE
+
+def test_puzzle2_dijkstra() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    result = puzzle.dijkstra()
+    assert result == 7036
+
+def test_puzzle2_init() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    assert puzzle.start == (1, 13)
+    assert puzzle.end == (13, 1)
+    assert puzzle.max_x == 14
+    assert puzzle.max_y == 14
+
+
+def test_puzzle2_is_valid() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    assert puzzle.is_valid(1, 1) == True
+    assert puzzle.is_valid(0, 0) == False
+
+
+def test_puzzle2_neighbors() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    assert puzzle.get_neighbors((1, 13), (1, 0)) == [
+        (
+            1,
+            (
+                (2, 13),
+                (1, 0),
+            )
+        ),
+        (
+            1001,
+            (
+                (1, 12),
+                (0, -1),
+            )
+
+        )
+    ]
+    assert puzzle.get_neighbors((1, 13), (0, 1)) == [
+        (
+            1001,
+            (
+                (2, 13),
+                (1, 0)
+            )
+        ),
+    ]
+    assert puzzle.get_neighbors((1, 13), (0, -1)) == [
+        (
+            1,
+            (
+                (1, 12),
+                (0, -1)
+            ),
+        ),
+        (
+            1001,
+            (
+                (2, 13),
+                (1, 0)
+            )
+        )
+    ]
+
+
+def test_get_neighbor_positions() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    assert puzzle.get_neighbor_positions((1, 13), (1, 0)) == [
+        ((2, 13), (1, 0), 1),  # straight East
+        ((1, 12), (0, -1), 1001),  # turn North
+        ((1, 14), (0, 1), 1001),  # turn South
+    ]
+    assert puzzle.get_neighbor_positions((1, 13), (0, 1)) == [
+        ((1, 14), (0, 1), 1),  # straight South
+        ((0, 13), (-1, 0), 1001),  # turn East
+        ((2, 13), (1, 0), 1001),  # turn West
+    ]
+    assert puzzle.get_neighbor_positions((1, 13), (-1, 0)) == [
+        ((0, 13), (-1, 0), 1),  # straight West
+        ((1, 14), (0, 1), 1001),  # turn North
+        ((1, 12), (0, -1), 1001),  # turn South
+    ]
+    assert puzzle.get_neighbor_positions((1, 13), (0, -1)) == [
+        ((1, 12), (0, -1), 1),  # straight North
+        ((2, 13), (1, 0), 1001),  # turn East
+        ((0, 13), (-1, 0), 1001),  # turn West
+    ]
+    
 BIG_EXAMPLE = """
 #################
 #...#...#...#..E#
@@ -96,7 +218,8 @@ def test_get_moves() -> None:
 ######
     """.strip()
     puzzle = Puzzle(data)
-    assert puzzle.grid.get_moves() == {
+    grid = puzzle.grid
+    assert grid.get_moves(grid.bot) == {
         (2, 1): {
             "points": 1001,
         },
@@ -113,7 +236,13 @@ def test_get_moves() -> None:
 
 
 def test_does_not_include_parent_moves_in_available_moves() -> None:
-    pass
+    data = """
+######
+#...E#
+#.S..#
+#....#
+######
+    """.strip()
 
 
 def test_example() -> None:

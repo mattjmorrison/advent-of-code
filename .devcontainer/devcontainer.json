@@ -6,14 +6,10 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "[python]": {
-          "editor.defaultFormatter": "ms-python.black-formatter",
-          "editor.formatOnSave": true
-        }
+
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
-        "ms-python.black-formatter"
       ]
     }
   }

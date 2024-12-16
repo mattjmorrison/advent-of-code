@@ -42,10 +42,10 @@ class Grid:
                     spaces.append((cindex, rindex))
         return spaces
 
-    def get_moves(self) -> dict[tuple[int, int], dict[str, int]]:
+    def get_moves(self, bot: tuple[int, int]) -> dict[tuple[int, int], dict[str, int]]:
         moves = {}
         for mod_x, mod_y in self.mods:
-            move = (self.bot[0] + mod_x, self.bot[1] + mod_y)
+            move = (bot[0] + mod_x, bot[1] + mod_y)
             if move in self.spaces:
                 if (mod_x, mod_y) == self.facing:
                     points = 1
