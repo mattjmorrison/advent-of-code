@@ -57,20 +57,6 @@ class Grid:
         return moves
 
 
-#         (0, -1)
-# (-1, 0)         (1, 0)
-#         (0, 1)
-
-# return {
-#     (1, 12): {
-#         "points": 1001,
-#     },
-#     (2, 13): {
-#         "points": 1,
-#     },
-# }
-
-
 class Puzzle:
 
     def __init__(self, data: str):

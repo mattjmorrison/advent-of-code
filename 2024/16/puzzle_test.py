@@ -112,6 +112,10 @@ def test_get_moves() -> None:
     }
 
 
+def test_does_not_include_parent_moves_in_available_moves() -> None:
+    pass
+
+
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
     assert puzzle.answer == 0
