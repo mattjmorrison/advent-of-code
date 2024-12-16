@@ -75,6 +75,7 @@ def test_part_two() -> None:
     puzzle.run()
     print(puzzle.show_grid())
     assert puzzle.answer < 1539130  # too high
+    assert puzzle.answer == 1533076
 
 
 def test_parse_big_example() -> None:
