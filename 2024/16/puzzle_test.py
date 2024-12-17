@@ -41,23 +41,49 @@ EXAMPLE_TWO = """
 #################
 """.strip()
 
+
 def test_part_one() -> None:
     puzzle = Puzzle2(DATA)
-    assert puzzle.dijkstra() == 122492
+    assert puzzle.dijkstra()[0] == 122492
+
+
+def test_part_two() -> None:
+    puzzle = Puzzle2(DATA)
+    # assert puzzle.dijkstra()[-1] == 524  # too high
+    # assert puzzle.dijkstra()[-1] == 493  # too low
+    assert puzzle.dijkstra()[-1] == 520
+
 
 def test_puzzle2_dijkstra_example_two() -> None:
     puzzle = Puzzle2(EXAMPLE_TWO)
-    result = puzzle.dijkstra()
+    result, direction, _ = puzzle.dijkstra()
     assert result == 11048
+    assert direction == (0, -1)
+
 
 def test_puzzle2_show_grid() -> None:
     puzzle = Puzzle2(EXAMPLE)
     assert puzzle.show_grid().strip() == EXAMPLE
 
+
 def test_puzzle2_dijkstra() -> None:
     puzzle = Puzzle2(EXAMPLE)
-    result = puzzle.dijkstra()
+    result, direction, _ = puzzle.dijkstra()
     assert result == 7036
+    assert direction == (0, -1)
+
+
+def test_puzzle2_part_2_example() -> None:
+    puzzle = Puzzle2(EXAMPLE)
+    result, direction, history = puzzle.dijkstra()
+    assert history == 46
+
+
+def test_puzzle2_part_2_example_2() -> None:
+    puzzle = Puzzle2(EXAMPLE_TWO)
+    result, direction, history = puzzle.dijkstra()
+    assert history == 64
+
 
 def test_puzzle2_init() -> None:
     puzzle = Puzzle2(EXAMPLE)
@@ -81,41 +107,25 @@ def test_puzzle2_neighbors() -> None:
             (
                 (2, 13),
                 (1, 0),
-            )
+            ),
         ),
         (
             1001,
             (
                 (1, 12),
                 (0, -1),
-            )
-
-        )
+            ),
+        ),
     ]
     assert puzzle.get_neighbors((1, 13), (0, 1)) == [
-        (
-            1001,
-            (
-                (2, 13),
-                (1, 0)
-            )
-        ),
+        (1001, ((2, 13), (1, 0))),
     ]
     assert puzzle.get_neighbors((1, 13), (0, -1)) == [
         (
             1,
-            (
-                (1, 12),
-                (0, -1)
-            ),
+            ((1, 12), (0, -1)),
         ),
-        (
-            1001,
-            (
-                (2, 13),
-                (1, 0)
-            )
-        )
+        (1001, ((2, 13), (1, 0))),
     ]
 
 
@@ -141,7 +151,8 @@ def test_get_neighbor_positions() -> None:
         ((2, 13), (1, 0), 1001),  # turn East
         ((0, 13), (-1, 0), 1001),  # turn West
     ]
-    
+
+
 BIG_EXAMPLE = """
 #################
 #...#...#...#..E#
