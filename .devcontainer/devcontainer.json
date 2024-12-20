@@ -3,13 +3,21 @@
     "dockerfile": "Dockerfile",
     "context": "."
 	},
+  "mounts": [
+    "type=bind,source=${localEnv:HOME}/.ssh,target=/root/.ssh,readonly"
+  ],
   "customizations": {
     "vscode": {
       "settings": {
-
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true
+        }
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
+        "ms-python.black-formatter",
+        "ms-python.python"
       ]
     }
   }
