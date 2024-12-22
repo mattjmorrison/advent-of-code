@@ -11,15 +11,15 @@ NUMBERS = (
 )
 
 
-ARROWS = [
-    ['', '^', 'A'],
-    ['<', 'v', '>'],
-]
+ARROWS = (
+    ('', '^', 'A'),
+    ('<', 'v', '>'),
+)
 
 
 class Terminal:
 
-    def __init__(self, keys=tuple[tuple[str, str, str]]):
+    def __init__(self, keys: tuple[tuple[str, str, str], ...]):
         self.keys = keys
 
     @cached_property
@@ -109,14 +109,18 @@ class Puzzle:
     def answer(self) -> int:
         total = 0
         for command in self.data.split('\n'):
-            number_bot  = Terminal(NUMBERS)
+            number_bot = Terminal(NUMBERS)
             options = number_bot.exec_cmd(command)
-            for loop in range(2):
+            for _ in range(2):
                 options = self.get_options_for_robot(Terminal(ARROWS), options)
             total += len(options[0]) * int(command[:-1])
         return total
 
-    def get_options_for_robot(self, terminal: Terminal, options: list[str]) -> list[str]:
+    def get_options_for_robot(
+        self,
+        terminal: Terminal,
+        options: list[str]
+    ) -> list[str]:
         new_options = []
         for option in options:
             new_options.extend(terminal.exec_cmd(option))
