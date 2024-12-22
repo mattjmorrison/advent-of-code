@@ -1,24 +1,21 @@
 {
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-	},
-  "mounts": [
-    "type=bind,source=${localEnv:HOME}/.ssh,target=/root/.ssh,readonly"
-  ],
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "[python]": {
-          "editor.defaultFormatter": "ms-python.black-formatter",
-          "editor.formatOnSave": true
+    "dockerComposeFile": "../../docker-compose.yml",
+    "workspaceFolder": "/work",
+    "service": "work",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.analysis.typeCheckingMode": "strict",
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.formatOnSave": true
+                }
+            },
+            "extensions": [
+                "ms-python.black-formatter",
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
         }
-      },
-      "extensions": [
-        "streetsidesoftware.code-spell-checker",
-        "ms-python.black-formatter",
-        "ms-python.python"
-      ]
-    }
   }
 }
