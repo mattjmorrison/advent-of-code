@@ -1,12 +1,24 @@
-from puzzle import Puzzle, NumPad
+from puzzle import Puzzle, Terminal, NUMBERS, ARROWS
+from data import DATA
 
 
-EXAMPLE = ""
+EXAMPLE = """
+029A
+980A
+179A
+456A
+379A
+""".strip()
+
+
+def test_part_one() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.answer == 107934
 
 
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
-    assert puzzle.answer == 0
+    assert puzzle.answer == 126384
 
 
 #
@@ -15,7 +27,7 @@ def test_example() -> None:
 
 
 def test_password_pad_coords() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.coords == {
         '7': (0, 0),
         '8': (0, 1),
@@ -32,7 +44,7 @@ def test_password_pad_coords() -> None:
 
 
 def test_numpad_dirs() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.get_neighbors(1, 1) == [
         (0, 1, "^"),
         (2, 1, "v"),
@@ -42,7 +54,7 @@ def test_numpad_dirs() -> None:
 
 
 def test_numpad_neighbors_excludes_out_of_bounds_neg() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.get_neighbors(0, 0) == [
         (1, 0, 'v'),
         (0, 1, '>'),
@@ -50,7 +62,7 @@ def test_numpad_neighbors_excludes_out_of_bounds_neg() -> None:
 
 
 def test_numpad_neighbors_excludes_out_of_bounds_pos() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.get_neighbors(3, 2) == [
         (2, 2, '^'),
         (3, 1, '<')
@@ -58,7 +70,7 @@ def test_numpad_neighbors_excludes_out_of_bounds_pos() -> None:
 
 
 def test_numpad_neighbors_skips_blank() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.get_neighbors(3, 1) == [
         (2, 1, '^'),
         (3, 2, '>'),
@@ -66,7 +78,7 @@ def test_numpad_neighbors_skips_blank() -> None:
 
 
 def test_paths() -> None:
-    pad = NumPad()
+    pad = Terminal(NUMBERS)
     assert pad.paths[('8', '3')] == [
         'vv>A',  'v>vA', '>vvA',
     ]
@@ -83,10 +95,20 @@ def test_paths() -> None:
     ]
 
 
-def test_exec_cmd() -> None:
-    pad = NumPad()
+def test_terminal_with_number_pad() -> None:
+    pad = Terminal(NUMBERS)
     assert pad.exec_cmd('029A') == [
         '<A^A^^>AvvvA',
         '<A^A^>^AvvvA',
         '<A^A>^^AvvvA',
+    ]
+
+
+def test_terminal_with_arrow_pad() -> None:
+    pad = Terminal(ARROWS)
+    assert pad.exec_cmd('<v^>A') == [
+        'v<<A>A^Av>A^A',
+        'v<<A>A^A>vA^A',
+        '<v<A>A^Av>A^A',
+        '<v<A>A^A>vA^A',
     ]
