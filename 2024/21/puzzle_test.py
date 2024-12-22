@@ -16,6 +16,10 @@ def test_part_one() -> None:
     assert puzzle.answer == 107934
 
 
+def test_part_two() -> None:
+    puzzle = Puzzle(DATA, robots=25)
+    assert puzzle.answer == 0
+
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
     assert puzzle.answer == 126384

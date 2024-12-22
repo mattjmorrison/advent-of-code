@@ -102,8 +102,9 @@ class Terminal:
 
 class Puzzle:
 
-    def __init__(self, data: str):
+    def __init__(self, data: str, robots: int = 2):
         self.data = data
+        self.robots = robots
 
     @property
     def answer(self) -> int:
@@ -111,7 +112,7 @@ class Puzzle:
         for command in self.data.split('\n'):
             number_bot = Terminal(NUMBERS)
             options = number_bot.exec_cmd(command)
-            for _ in range(2):
+            for _ in range(self.robots):
                 options = self.get_options_for_robot(Terminal(ARROWS), options)
             total += len(options[0]) * int(command[:-1])
         return total
