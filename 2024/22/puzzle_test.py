@@ -42,7 +42,12 @@ EXAMPLE = """
 
 def test_part_one() -> None:
     puzzle = Puzzle(DATA)
-    assert puzzle.answer == 0
+    assert puzzle.answer == 19822877190
+
+
+def test_part_two() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.get_best_buyer_prices() == 2277
 
 
 def test_example() -> None:
@@ -94,3 +99,19 @@ def test_example_for_buyers() -> None:
         for _ in range(2000):
             secret = puzzle.get_next_secret(secret)
         assert secret == int(end)
+
+
+def test_get_buyer_prices() -> None:
+    puzzle = Puzzle("123")
+    assert puzzle.get_buyer_prices()[0][:10] == [
+        0,
+        6,
+        5,
+        4,
+        4,
+        6,
+        4,
+        4,
+        2,
+        4,
+    ]
