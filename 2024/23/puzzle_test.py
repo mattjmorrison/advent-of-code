@@ -1,4 +1,5 @@
 from puzzle import Puzzle
+from data import DATA
 
 
 EXAMPLE = """
@@ -39,7 +40,28 @@ td-yn
 
 def test_example() -> None:
     puzzle = Puzzle(EXAMPLE)
-    assert puzzle.answer == 0
+    assert puzzle.answer == 7
+
+
+def test_part_one() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.answer == 1306
+
+
+def test_part_two() -> None:
+    puzzle = Puzzle(DATA)
+    assert puzzle.part_two == 'bd,dk,ir,ko,lk,nn,ob,pt,te,tl,uh,wj,yl'
+
+
+def test_part_two_example() -> None:
+    puzzle = Puzzle(EXAMPLE)
+    assert puzzle.part_two == 'co,de,ka,ta'
+
+
+# def test_find_largest_set() -> None:
+#     puzzle = Puzzle(EXAMPLE)
+#     results = puzzle.find_largest_set('kh', set())
+#     assert results == tuple(sorted(('co', 'de', 'ka', 'ta')))
 
 
 def test_parse() -> None:
@@ -49,18 +71,13 @@ def test_parse() -> None:
         print(r)
     
     for expected in [
-        # {'aq', 'cg', 'yn'},
-        # {'aq', 'vc', 'wq'},
-        # {'co', 'de', 'ka'},
-        {'co', 'de', 'ta'},
-        {'co', 'ka', 'ta'},
-        {'de', 'ka', 'ta'},
-        # {'kh', 'qp', 'ub'},
-        {'qp', 'td', 'wh'},
-        {'tb', 'vc', 'wq'},
-        {'tc', 'td', 'wh'},
-        {'td', 'wh', 'yn'},
-        # {'ub', 'vc', 'wq'},
+        ('co', 'de', 'ta'),
+        ('co', 'ka', 'ta'),
+        ('de', 'ka', 'ta'),
+        ('qp', 'td', 'wh'),
+        ('tb', 'vc', 'wq'),
+        ('tc', 'td', 'wh'),
+        ('td', 'wh', 'yn'),
     ]:
         assert expected in result
 
