@@ -220,7 +220,7 @@ y40 XOR x40 -> nmh
 qnt AND kps -> wrv
 rrk XOR fdw -> z26
 dft AND mjd -> vhs
-ggh XOR tvp -> jst
+ggh XOR tvp -> bhb
 y20 XOR x20 -> rgb
 y26 AND x26 -> pvv
 wff AND kqm -> vgf
@@ -236,7 +236,7 @@ fdw AND rrk -> ptc
 hdb OR rkf -> vhr
 mjw OR vhs -> hdf
 bdw XOR vqn -> z33
-ggh AND tvp -> bhb
+ggh AND tvp -> jst
 y14 XOR x14 -> jhf
 scp AND rgb -> vrb
 dwb OR gth -> scp
