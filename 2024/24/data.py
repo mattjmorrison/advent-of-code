@@ -128,7 +128,7 @@ y18 AND x18 -> dwt
 vgf OR bkn -> ggg
 gvj XOR jsd -> z11
 cpg OR nmv -> pvr
-x15 XOR y15 -> dvj
+x15 XOR y15 -> z15
 x44 AND y44 -> nng
 x33 XOR y33 -> vqn
 y43 AND x43 -> csh
@@ -214,7 +214,7 @@ wrb AND gbp -> dwb
 rhm OR tcm -> jkj
 y09 AND x09 -> hrq
 shq XOR vkc -> z32
-y15 AND x15 -> z15
+y15 AND x15 -> dvj
 gbp XOR wrb -> z19
 y40 XOR x40 -> nmh
 qnt AND kps -> wrv

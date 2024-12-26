@@ -36,6 +36,7 @@ class Puzzle:
         XOR & XOR -> Z
 
         swap gdf & mcm
+        swap dvj & z15
         """
         self.answer
         results = self.part_two()
