@@ -45,9 +45,8 @@ class Puzzle:
                 else:
                     # print(f'{c} is wrong')
                     print(f'style {c} fill:#f00,color:#000')
-            print(f'{a}[{a} - {self.state[a]}] --> {c}[{c} - {self.state[c]}]')
-            print(f'{b}[{b} - {self.state[b]}] --> {c}[{c} - {self.state[c]}]')
-            # break
+            print(f'{a}[{a} - {self.state[a]}] -- {command[1]} --> {c}[{c} - {self.state[c]}]')
+            print(f'{b}[{b} - {self.state[b]}] -- {command[1]} --> {c}[{c} - {self.state[c]}]')
         print("```")
 
     def print_graph(self, structure: list, indent: int = 0) -> None:
