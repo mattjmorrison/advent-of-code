@@ -38,6 +38,8 @@ class Puzzle:
         swap gdf & mcm
         swap dvj & z15
         swap gwc & z30
+        swap bhb & z05
+        bhb,dvj,gdf,gwc,mcm,z05,z15,z30 - wrong
         """
         self.answer
         results = self.part_two()
