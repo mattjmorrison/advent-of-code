@@ -34,6 +34,8 @@ class Puzzle:
         AND -> OR/AND
         XOR -> XOR/AND
         XOR & XOR -> Z
+
+        swap gdf & mcm
         """
         self.answer
         results = self.part_two()

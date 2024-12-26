@@ -184,7 +184,7 @@ vqn AND bdw -> ppr
 vkc AND shq -> ncc
 y37 XOR x37 -> gbn
 y06 AND x06 -> fsb
-x10 AND y10 -> mcm
+x10 AND y10 -> gdf
 dnt OR ckf -> jpj
 y14 AND x14 -> hdb
 ksv XOR pvr -> z39
@@ -307,7 +307,7 @@ x25 XOR y25 -> bwq
 y04 XOR x04 -> bjc
 x31 XOR y31 -> tjp
 x41 AND y41 -> pfn
-y10 XOR x10 -> gdf
+y10 XOR x10 -> mcm
 y00 AND x00 -> rpj
 y34 AND x34 -> hrg
 gvj AND jsd -> gpd
