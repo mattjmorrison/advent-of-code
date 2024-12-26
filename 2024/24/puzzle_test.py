@@ -307,3 +307,9 @@ def test_binary_addition() -> None:
     assert state['z04'] == 1
     assert state['z05'] == 1
     assert state['z06'] == 1
+
+
+def test_graph() -> None:
+    puzzle = Puzzle(DATA)
+    puzzle.show_graph()
+    assert False

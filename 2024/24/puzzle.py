@@ -29,6 +29,44 @@ class Puzzle:
 
         return final_z
 
+    def show_graph(self) -> None:
+        self.answer
+        results = self.part_two()
+        self._setup_commands()
+        print("```mermaid")
+        print("flowchart TB")
+        for command in self.commands:
+            a = command[0]
+            b = command[2]
+            c = command[-1]
+            if c.startswith('z'):
+                if self.state[c] == results[c]:
+                    print(f'style {c} fill:#0f0,color:#000')
+                else:
+                    # print(f'{c} is wrong')
+                    print(f'style {c} fill:#f00,color:#000')
+            print(f'{a}[{a} - {self.state[a]}] --> {c}[{c} - {self.state[c]}]')
+            print(f'{b}[{b} - {self.state[b]}] --> {c}[{c} - {self.state[c]}]')
+            # break
+        print("```")
+
+    def print_graph(self, structure: list, indent: int = 0) -> None:
+        for item in structure:
+            print(" " * indent + f'{item[0]}')
+            if item[1]:
+                self.print_graph(item[1], indent + 4)
+
+    def find_parent(self, command: tuple[str, ...]) -> tuple[str, ...]:
+        if command[0][0] in 'xy' and command[2][0] in 'xy':
+            return []
+        parents = []
+        for parent in self.commands:
+            if parent[-1] == command[0]:
+                parents.append((parent, self.find_parent(parent)))
+            if parent[-1] == command[2]:
+                parents.append((parent, self.find_parent(parent)))
+        return parents
+
     @property
     def answer(self) -> int:
         while command := self.commands and self.commands.pop(0):
