@@ -30,6 +30,11 @@ class Puzzle:
         return final_z
 
     def show_graph(self) -> None:
+        """
+        AND -> OR/AND
+        XOR -> XOR/AND
+        XOR & XOR -> Z
+        """
         self.answer
         results = self.part_two()
         self._setup_commands()
@@ -39,14 +44,15 @@ class Puzzle:
             a = command[0]
             b = command[2]
             c = command[-1]
+            label = '<span style="color:#f00">XOR</style>' if command[1] == 'XOR' else ''
             if c.startswith('z'):
                 if self.state[c] == results[c]:
                     print(f'style {c} fill:#0f0,color:#000')
                 else:
                     # print(f'{c} is wrong')
                     print(f'style {c} fill:#f00,color:#000')
-            print(f'{a}[{a} - {self.state[a]}] -- {command[1]} --> {c}[{c} - {self.state[c]}]')
-            print(f'{b}[{b} - {self.state[b]}] -- {command[1]} --> {c}[{c} - {self.state[c]}]')
+            print(f'{a}[{a} - {self.state[a]}] --{label}--> {c}[{c} - {self.state[c]}]')
+            print(f'{b}[{b} - {self.state[b]}] --{label}--> {c}[{c} - {self.state[c]}]')
         print("```")
 
     def print_graph(self, structure: list, indent: int = 0) -> None:
