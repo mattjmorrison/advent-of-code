@@ -37,6 +37,7 @@ class Puzzle:
 
         swap gdf & mcm
         swap dvj & z15
+        swap gwc & z30
         """
         self.answer
         results = self.part_two()

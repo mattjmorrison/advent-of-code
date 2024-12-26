@@ -98,7 +98,7 @@ ngc XOR tjp -> z31
 vht AND jjk -> djh
 x25 AND y25 -> djr
 rpj AND nsc -> gpt
-kgr AND vrg -> z30
+kgr AND vrg -> gwc
 x11 XOR y11 -> jsd
 vmd XOR whn -> z03
 wht AND shw -> hpv
@@ -249,7 +249,7 @@ rtb OR hrg -> qnt
 hdf AND kmr -> dwd
 whn AND vmd -> mkv
 x32 AND y32 -> gdg
-kgr XOR vrg -> gwc
+kgr XOR vrg -> z30
 x33 AND y33 -> vmf
 vmf OR ppr -> cnb
 x28 XOR y28 -> kmr
