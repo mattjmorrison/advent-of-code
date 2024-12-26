@@ -167,7 +167,7 @@ qrm OR hpv -> vbk
 mnn XOR vbk -> z08
 ffj OR jng -> wff
 y17 AND x17 -> ppv
-sgt OR bhb -> z05
+sgt OR bhb -> bhb
 gwc OR fhg -> ngc
 y02 XOR x02 -> mdw
 hfq XOR fgd -> z42
@@ -220,7 +220,7 @@ y40 XOR x40 -> nmh
 qnt AND kps -> wrv
 rrk XOR fdw -> z26
 dft AND mjd -> vhs
-ggh XOR tvp -> bhb
+ggh XOR tvp -> z05
 y20 XOR x20 -> rgb
 y26 AND x26 -> pvv
 wff AND kqm -> vgf
