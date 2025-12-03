@@ -7,21 +7,41 @@ from puzzle import Puzzle
 from data import input_data
 
 
-def test_splits_input() -> None:
-    input = dedent(dedent("""
-        L1
-        R1
-        L2
-        R2
-    """))
-    puzzle = Puzzle(input)
-    assert puzzle.get_moves() == [
-        -1, 1, -2, 2
-    ]
+def test_starting_position():
+    puzzle = Puzzle("")
+    assert puzzle.position == 50
 
 
-def test_splits_apart_numbers_from_input() -> None:
-    input = dedent("""
+@pytest.mark.parametrize('move, result', (
+    ('R1', 51),
+    ('L1', 49),
+    ('R50', 0),
+    ('L50', 0),
+    ('L51', 99),
+    ('R51', 1),
+    ('L52', 98),
+    ('R100', 50),
+    ('R150', 0),
+    ('L100', 50),
+    ('L150', 0),
+    ('R200', 50),
+    ('L200', 50),
+))
+def test_move(move, result):
+    puzzle = Puzzle("")
+    puzzle.move(move)
+    assert puzzle.position == result
+
+
+def test_zeroes_counts():
+    puzzle = Puzzle("")
+    assert puzzle.zeroes == 0
+    puzzle.move('R1000')
+    assert puzzle.zeroes == 10
+
+
+def test_part_two_example():
+    puzzle = Puzzle(dedent("""
         L68
         L30
         R48
@@ -32,35 +52,12 @@ def test_splits_apart_numbers_from_input() -> None:
         L99
         R14
         L82
-    """.strip())
-    puzzle = Puzzle(input)
+    """).strip())
     puzzle.solve()
-    assert puzzle.zeroes == 3
-
-# def test_two():
-#     input = dedent("""
-#         L454
-#     """.strip())
-#     puzzle = Puzzle(input)
-#     puzzle.solve()
-#     assert False
+    assert puzzle.zeroes == 6
 
 
-def test_part_one():
+def test_part_two():
     puzzle = Puzzle(input_data)
     puzzle.solve()
-    # assert puzzle.zeroes == 
-    assert puzzle.zeroes == 1150
-
-
-def test_looper():
-    puzzle = Puzzle("")
-    assert puzzle.find_spot(-51) == 49
-    assert puzzle.find_spot(-100) == 0
-    assert puzzle.find_spot(-150) == 50
-    assert puzzle.find_spot(-200) == 0
-    assert puzzle.find_spot(50) == 50
-    assert puzzle.find_spot(100) == 0
-    assert puzzle.find_spot(150) == 50
-    assert puzzle.find_spot(200) == 0
-
+    assert puzzle.zeroes == 6738

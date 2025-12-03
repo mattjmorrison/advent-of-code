@@ -1,43 +1,29 @@
-
-START = 50
-MAX = 99
-MIN = 0
-
-
 class Puzzle:
 
-    def __init__(self, input: str):
+    def __init__(self, input):
         self.input = input
+        self.position = 50
         self.zeroes = 0
 
-    def get_moves(self):
-        moves = []
-        rows = self.input.strip().split('\n')
-        for row in rows:
-            row = row.strip()
-            number = int(row[1:])
-            if row.startswith('L'):
-                moves.append(-1 * number)
-            else:
-                moves.append(number)
-        return moves
-
     def solve(self):
-        current = START
-        for move in self.get_moves():
-            current = self.find_spot(current + move)
-            print(f"Move: {move} Current: {current}")
-            if current == 0:
-                self.zeroes += 1
+        for input in self.input.split('\n'):
+            self.move(input)
 
-    def find_spot(self, number):
-        while number < 0 or number > 99:
-            print(f"Adjusting {number}")
-            if number < 0:
-                number = 100 + number
-                print(f"Adjusted < 0: {number}")
-            if number > 99:
-                number = number - 100
-                print(f"Adjusted > 99: {number}")
-        print(f"Done: {number}")
-        return number
+    def move(self, instruction):
+        direction = instruction[0]
+        number = int(instruction[1:])
+        while number > 0:
+            if direction == 'R':
+                if self.position + 1 == 100:
+                    self.zeroes += 1
+                    self.position = 0
+                else:
+                    self.position += 1
+            else:
+                if self.position - 1 == -1:
+                    self.position = 99
+                else:
+                    self.position -= 1
+                    if self.position == 0:
+                        self.zeroes += 1
+            number -= 1
