@@ -38,16 +38,16 @@ def test_is_repeated(number, repeat):
 
 @pytest.mark.parametrize('start, end, matches', (
     (11, 22, [11, 22]),
-    (95, 115, [99]),
-    (998, 1012, [1010]),
+    (95, 115, [99, 111]),
+    (998, 1012, [999, 1010]),
     (1188511880, 1188511890, [1188511885]),
     (222220, 222224, [222222]),
     (1698522, 1698528, []),
     (446443, 446449, [446446]),
     (38593856, 38593862, [38593859]),
-    (565653, 565659, []),
-    (824824821, 824824827, []),
-    (2121212118, 2121212124, []),
+    (565653, 565659, [565656]),
+    (824824821, 824824827, [824824824]),
+    (2121212118, 2121212124, [2121212121]),
 ))
 def test_checks_for_repeats_in_ranges(start, end, matches):
     puzzle = Puzzle("")
@@ -55,11 +55,35 @@ def test_checks_for_repeats_in_ranges(start, end, matches):
     assert results == matches
 
 
-def test_total_invalid_numbers():
+# def test_total_invalid_numbers_part_one():
+#     puzzle = Puzzle(test_input)
+#     assert puzzle.solve() == 1227775554
+
+
+def test_total_invalid_numbers_part_two():
     puzzle = Puzzle(test_input)
-    assert puzzle.solve() == 1227775554
+    assert puzzle.solve() == 4174379265
 
 
-def test_part_one():
+# def test_part_one():
+#     puzzle = Puzzle(input)
+#     assert puzzle.solve() == 23701357374
+
+
+def test_part_two():
     puzzle = Puzzle(input)
-    assert puzzle.solve() == 23701357374
+    assert puzzle.solve() == 34284458938
+
+
+@pytest.mark.parametrize('size, groups', (
+    (2, [1]),
+    (3, [1]),
+    (4, [1, 2]),
+    (6, [1, 2, 3]),
+    (8, [1, 2, 4]),
+    (10, [1, 2, 5]),
+    (12, [1, 2, 3, 4, 6]),
+))
+def test_get_group_sizes(size, groups):
+    puzzle = Puzzle("")
+    assert puzzle.get_group_sizes(size) == groups
