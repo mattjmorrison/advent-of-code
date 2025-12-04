@@ -9,20 +9,16 @@ class Puzzle:
             results.append([int(a) for a in list(row)])
         return results
 
-    def find_max(self, row):
-        return max(row[:-1])
-
-    def find_max_pos(self, row):
-        return row.index(self.find_max(row))
-
-    def find_max_after_max(self, row):
-        index = self.find_max_pos(row)
-        return max(row[index+1:])
-
     def calc_joltage_for_row(self, row):
-        left = self.find_max(row)
-        right = self.find_max_after_max(row)
-        return int(f'{left}{right}')
+        result = ''
+        index = 0
+        for end in range(-11, 0, 1):
+            current = row[index:end]
+            highest = max(current)
+            index = row.index(highest, index) + 1
+            result += str(highest)
+        result += str(max(row[index:]))
+        return int(result)
 
     def calc_total_joltage(self):
         results = []
