@@ -22,12 +22,35 @@ class Puzzle:
         rows.append(operators)
         return list(zip(*rows))
 
+    def parse_two(self):
+        rows = self.input.split('\n')
+        size = len(rows[0]) - 1
+        new = [[]]
+        for i in range(size, -1, -1):
+            number = ''
+            for row in rows[:-1]:
+                number += row[i]
+            if number.strip():
+                new[-1].append(int(number))
+            if rows[-1][i].strip():
+                new[-1].append(rows[-1][i])
+                new.append([])
+        new.pop()
+        return new
+
     def calc_row(self, row):
         op = row[-1]
         return reduce(OPS[op], row[:-1])
 
     def solve_part_one(self):
         data = self.parse()
+        total = []
+        for row in data:
+            total.append(self.calc_row(row))
+        return sum(total)
+
+    def solve_part_two(self):
+        data = self.parse_two()
         total = []
         for row in data:
             total.append(self.calc_row(row))
