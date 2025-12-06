@@ -20,15 +20,21 @@ def test_parse():
     puzzle: Puzzle = Puzzle(TEST_INPUT)
     fresh, available = puzzle.parse()
     assert fresh == [
-        (3, 5),
-        (10, 14),
-        (16, 20),
-        (12, 18),
+        [3, 5],
+        [10, 14],
+        [16, 20],
+        [12, 18],
     ]
     assert available == [
         1, 5, 8, 11, 17, 32
     ]
 
+def test_combine():
+    puzzle = Puzzle(TEST_INPUT)
+    assert puzzle.combine(puzzle.parse()[0]) == [
+        [3, 5],
+        [10, 20],
+    ]
 
 def test_part_one_example():
     puzzle: Puzzle = Puzzle(TEST_INPUT)
@@ -45,6 +51,6 @@ def test_solve_part_one():
     assert puzzle.solve_part_one() == 848
 
 
-# def test_solve_part_two():
-#     puzzle: Puzzle = Puzzle(input)
-#     assert puzzle.solve_part_two() == ""
+def test_solve_part_two():
+    puzzle: Puzzle = Puzzle(input)
+    assert puzzle.solve_part_two() == 334714395325710

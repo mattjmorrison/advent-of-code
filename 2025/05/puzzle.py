@@ -9,7 +9,7 @@ class Puzzle:
 
         fresh = []
         for item in fresh_ranges:
-            fresh.append(tuple([int(a) for a in item.split('-')]))
+            fresh.append([int(a) for a in item.split('-')])
 
         return fresh, [int(x) for x in available.split('\n')]
 
@@ -17,39 +17,26 @@ class Puzzle:
         fresh, available = self.parse()
         count = 0
         for item in available:
-            print(f"Item: {item}")
             for low, high in fresh:
                 if low <= item <= high:
-                    print(f'low:{low} < item:{item} < high:{high}')
                     count += 1
                     break
         return count
 
+    def combine(self, items):
+        items.sort(key=lambda i: i[0])
+        combined = [items[0]]
+        for current in items[1:]:
+            end = combined[-1]
+            if current[0] <= end[1]:
+                end[1] = max(end[1], current[1])
+            else:
+                combined.append(current)
+        return combined
+
     def solve_part_two(self):
         fresh_ranges, _ = self.parse()
-
-        sorted_ranges = sorted(fresh_ranges)
-
-        combined_ranges = []
-        for low, high in sorted_ranges:
-            for l2, h2 in sorted_ranges:
-                if l2 < low < h2:
-                    combined_ranges.append((low, h2))
-                    break
-            else:
-                combined_ranges.append((low, high))
-
-        print(combined_ranges)
-
-
-
-        # for low in low_sorted_ranges:
-        #     print(low)
-
-        # for high in high_sorted_ranges:
-        #     print(high)
-
-        # for low, high in sorted_ranges:
-        #     print(range(low, high+1))
-
-        return 0
+        total = 0
+        for start, end in self.combine(fresh_ranges):
+            total += end + 1 - start
+        return total
