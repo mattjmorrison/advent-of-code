@@ -24,11 +24,11 @@ def test_part_one():
     assert puzzle.solve_part_one() == 4777409595
 
 
-# def test_part_two_example():
-#     puzzle = Puzzle(TEST_INPUT)
-#     assert puzzle.solve_part_two() == 0
+def test_part_two_example():
+    puzzle = Puzzle(TEST_INPUT)
+    assert puzzle.solve_part_two() == 24
 
 
-# def test_part_two():
-#     puzzle = Puzzle(input)
-#     assert puzzle.solve_part_two() == 0
+def test_part_two():
+    puzzle = Puzzle(input)
+    assert puzzle.solve_part_two() == 999999999999999
